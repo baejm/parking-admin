@@ -1,0 +1,495 @@
+.svg-inline--fa {
+  margin: 0 5px;
+}
+.counting .svg-inline--fa {
+  color: #28a95e;
+}
+.counting span:nth-child(6) .svg-inline--fa {
+  color: #fd6e21;
+}
+
+#sub_wrap h2 {
+  font-size: 16px;
+  font-weight: 400;
+}
+#sub_wrap .counting h2 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#sub_wrap .breadcrumbs{display: none;}
+#sub_wrap h2:before {
+    content: "";
+    background: #26a95e;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    margin: 1px 5px 1px 0;
+    border-radius: 8px;
+  }
+  #sub_wrap h2:after {
+    content: "";
+    background: #c5c5c5;
+    width: 100%;
+    height: 1px;
+    display: inline-block;
+    margin: 0 0 8px;
+  }
+  #sub_wrap .present_condition_view {
+    height: 40%;    
+  }
+  #sub_wrap .present_condition_view:after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+  #sub_wrap .present_condition_view > ul:after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+  #sub_wrap .present_condition_view > ul > li {
+    width: 20%;
+    float: left;
+    padding: 0 2px;
+  }
+  #sub_wrap .present_condition_view ul .strapline dl {
+    background: #26a95e;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+    display: flex;
+    font-size: 14px;
+  }
+  #sub_wrap .present_condition_view ul .strapline dl dt {
+    margin-right: auto;
+    width: 55%;
+  }
+  #sub_wrap .present_condition_view ul .strapline dl dd {
+    margin-right: auto;
+    width: 45%;
+    text-align: center;
+  }
+  #sub_wrap .present_condition_view ul .strapline dl dt input,
+  #sub_wrap .present_condition_view ul .strapline dl dd input {
+    width: 100%;
+  }
+  #sub_wrap .present_condition_view ul .strapline dd input {
+    text-align: right;
+  }
+  #sub_wrap .present_condition_view .state_body_wrp {
+    background: #f3f3f3;
+    margin: 5px auto;
+    padding: 5px 4px;
+  }
+  #sub_wrap .present_condition_view ul.state_body:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  #sub_wrap .present_condition_view ul.state_body div {
+    height: auto;
+    overflow: hidden;
+  }
+  #sub_wrap .present_condition_view ul.state_body li {
+    position: relative;
+  }
+  .present_condition_view .carmera_lists.active .strapline dl {
+    background: #fd6e21 !important
+  }
+  .present_condition_view .carmera_lists.cut .strapline dl {
+    background: #9100bd !important
+  }
+  .present_condition_view .carmera_lists.active ul.state_body li:before {
+    background: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "";
+    padding: 0 2px;
+  }
+  .present_condition_view .carmera_lists.cut ul.state_body li:after {
+    background: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "No-signal";
+    padding: 0 2px;
+    z-index: 1000;
+    color: wheat;
+    text-align: center;
+    line-height: 188px;
+  }
+  .present_condition_view ul.state_body li span {
+    display: none;
+  }
+  .present_condition_view .carmera_lists.active li span.open,
+  .present_condition_view .carmera_lists li.openfix span.fixing
+  {
+    display: block;
+    border-radius: 24px;
+    color: white;
+    padding: 3px 0px;
+    text-align: center;
+    width: 45px;
+    font-size: 12px;
+    position: absolute;    
+    top: 5px;
+  }
+  .present_condition_view .carmera_lists.active li span.open {   
+    background: #4caf50;   
+    left: 5px;
+     }
+  .present_condition_view .carmera_lists li.openfix span.fixing {
+    background:#6a6cff; 
+    right: 5px;
+    width: 60px;
+
+  }
+  .present_condition_view .carmera_lists.active ul.state_body li div img{    
+    border: 4px solid #28a95c;box-sizing: border-box;}
+  #sub_wrap .present_condition_view ul.state_body .img_record img {
+    background-size: cover;
+    width: 100%;
+    transition: all 0.2s ease-out;
+  }
+  #sub_wrap .present_condition_view li.active ul.state_body li p {
+    background: #28a95c;
+  }
+  #sub_wrap .present_condition_view ul.state_body p {
+    background: #2e2e2e;
+    border-radius: 5px;
+    color: white;
+    padding: 2px 10px;
+    display: block;
+    margin: 5px 0;
+    text-align: center;
+  }
+  /* 여기는 올림,자동모드,수동락 버튼 */
+  .bar_control {
+    color: white;
+    height: 25px;
+    text-align: center;
+    display: flex;
+  }
+  .bar_control button {
+    width: 35%;
+    background: #fd6e21;
+    border-radius: 30px;
+    font-size: 14px;
+    margin-right: 10px;
+    outline: none;
+    transition: all 0.5s;
+    animation-duration: 3s;
+    animation-name: slidein;
+    box-shadow: inset 3px 3px 3px rgba(255, 255, 255, 0.25);
+  }
+  .bar_control button:hover {
+    box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.1s;
+  }
+  .bar_control button:active {
+    box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2);
+    background:#000;  
+    animation-duration: 3s;
+    animation-name: slidein;} 
+
+  @keyframes slidein {
+  from {
+    background: rgb(195, 0, 255) !important ;
+    left:100px;
+  }
+  to {
+    background: #000 !important;
+    left:300px;
+  }}
+  .bar_control form {
+    background: #3d3d3d;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    display: flex;
+    width: 65%;
+  }
+  .bar_control form label {
+    appearance: none;
+    background: #3d3d3d;
+    text-align: center;
+    display: block;
+    width: 50%;
+    border-radius: 21px;
+    color: white;
+    position: relative;
+    cursor: pointer;
+  }
+  .bar_control form label:nth-child(1) input {
+    margin-left: -2px !important;
+  }
+  .bar_control form label:nth-child(2) input {
+    margin-right: -2px !important;
+  }
+  .bar_control label span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    font-size: 13px;
+    line-height: 12px;
+  }
+  .state_body_wrp .bar_control input[type="radio"],
+  .state_body_wrp .bar_control input[type="radio"]:checked {
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 20px;
+    outline: none;
+  }
+  .state_body_wrp .bar_control input[type="radio"]:checked {
+    background-color: #26a95e;
+    border: none;
+    box-shadow: inset 3px 3px 3px rgba(0, 0, 0, 0.2);
+  }
+  .state_body_wrp .bar_control label input[type="radio"] ~ span {
+    color: rgb(190, 190, 190) !important;
+  }
+  .state_body_wrp .bar_control label input[type="radio"]:checked ~ span {
+    color: white !important;
+  }
+  
+  /* 여기는 미인식,일반차 check 버튼 */
+  ul.checkbox-wrap {
+    display: block;
+    align-items: center;
+    width: 100%;
+    padding: 5px 0px 0px;
+    text-align: center;
+    font-size: 15px;
+  }
+  ul.checkbox-wrap:after {
+    clear: both;
+    display: block;
+    content: "";
+  }
+  ul.checkbox-wrap li {
+    width: 50%;
+    float: left;
+    margin: 2px 0;
+  }
+  .state_body_wrp .checkbox-wrap input[type="radio"],
+  .state_body_wrp .checkbox-wrap input[type="radio"]:checked {
+    appearance: none;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin: 0.2rem 0.2rem 0 0;
+    vertical-align: text-top;
+    outline: none;
+  }
+  
+  .state_body_wrp .checkbox-wrap input[type="radio"] {
+    background-color: white;
+    border: 1px solid #555;
+  }
+  .state_body_wrp .checkbox-wrap input[type="radio"]:checked {
+    background: url(../check.png) no-repeat center;
+    background-color: #26a95e;
+    border: none;
+    vertical-align: text-top;
+  }
+  /* 여기는 미인식,일반차 버튼 */
+  ul.radio-wrap {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0px 5px;
+  }
+  .state_body_wrp ul.radio-wrap li {
+    width: 50%;
+    text-align: center;
+    font-size: 12px;
+  }
+  .state_body_wrp ul.radio-wrap label {
+    color: #333 !important;
+    cursor: pointer;
+  }
+  .state_body_wrp .radio-wrap input[type="radio"],
+  .state_body_wrp .radio-wrap input[type="radio"]:checked {
+    appearance: none;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin: 0.15rem 0.2rem 0 0;
+    vertical-align: text-top;
+    outline: none;
+  }
+  .state_body_wrp .radio-wrap input[type="radio"] {
+    background-color: white;
+    border: 1px solid #555;
+  }
+  .state_body_wrp .radio-wrap input[type="radio"]:checked {
+    background: url(../check.png) no-repeat center;
+    background-color: #26a95e;
+    border: none;
+    vertical-align: text-top;
+  }
+  
+  /* 테이블데이터 */
+  #sub_wrap .record_wrap {
+    clear: both;
+    height: 55%;
+    padding-top: 15px;
+  }
+  .record_wrap .menu_title {
+    display: flex;
+    width: 100%;
+    height: auto;
+  }
+  .record_wrap .menu_title .counting {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+  }
+  .record_wrap .menu_title .counting h2:after {
+    display: none !important;
+  }
+  .record_wrap .menu_title .counting span {
+    margin: 0 0.5%;
+    white-space: nowrap;
+  }
+  .record_wrap .menu_title .counting span:nth-of-type(1) {
+    margin-left: auto;
+  }
+  .record_wrap .menu_title .layout {
+    align-items: center;
+  }
+  .record_wrap .list_data {
+    height: 93%;
+  }
+  .record_wrap .list_data input {
+    width: 100%;text-align: center;
+  }
+  .record_wrap .menu_title .layout .v-input__control {
+    margin: 0px;
+  }
+  .record_wrap .menu_title .layout .v-input__control .v-input__slot {
+    width: 121px;
+    margin: 0 0 0 -1px;
+    height: 38px;
+    min-height: 35px;
+  }
+  .record_wrap .menu_title span.small_title {
+    background-color: #fafafa;
+    padding: 5px;
+    border: 1px solid #c6c6c6;
+    background-color: #fafafa;
+    padding: 0px 0px;
+    height: 100%;
+    display: block;
+    width: 47px;
+    text-align: center;
+    line-height: 36px;
+  }
+  table.list_data_table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    height: 100%;
+  }
+  table.list_data_table thead tr {
+    background: #6a6cff;
+    top: 1px;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    color: #fff;
+  }
+  table.list_data_table thead th {
+    padding: 8px 0;
+    border-top: none;
+  }
+  table.list_data_table td,
+  th {
+    border-top: 1px solid #e8e8e8;
+    padding: 3px 0;
+    width: calc(100% / 11);
+    white-space: nowrap;
+  }
+  table.list_data_table th:nth-child(2),
+  .scrolltBody table td:nth-child(2) {
+    width: 15%;
+  }
+  table.list_data_table th:nth-child(4),
+  .scrolltBody table td:nth-child(4) {
+    width: 5%;
+  }
+  
+  table.list_data_table th:first-child,
+  table.list_data_table tr td:first-child,
+  table.list_data_table th:last-child,
+  table.list_data_table tr td:last-child {
+    width: 5%;
+  }
+  table.list_data_table tr td img {
+    width: 30%;
+  }
+  table.list_data_table td tr td {
+    border: none;
+    font-weight: 300;
+  }
+  table.list_data_table td tr td.tdImg div {
+    border-top: 1px solid #c9c9c9;
+    padding: 0.5% 7%;
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+  .list_data_table tbody.scrolltBody {
+    height: 95%;
+    overflow-y: auto;
+    width: 100%;
+    display: block;
+    overflow-x: hidden;
+  }
+  .list_data table td tr div span {
+    padding: 1%;
+  }
+  .list_data_table tbody.scrolltBody table {
+    width: 100%;
+  }
+  .list_data_table tbody.scrolltBody > tr {
+    width: 100%;
+    display: flex;
+  }
+  .list_data_table tbody.scrolltBody > tr > td {
+    width: 100%;
+  }
+  .list_data_table tbody.scrolltBody button {
+    color: #26a95e;
+  }
+  @media screen and (max-width: 1024px) {
+    #sub_wrap h2,
+    #sub_wrap .present_condition_view > ul > li,
+    .record_wrap .menu_title .counting span,
+    table.list_data_table {
+      font-size: 14px;
+    }
+  }
+  @media screen and (max-width: 957px) {
+    #sub_wrap .present_condition_view > ul > li {
+      width: 33.3333%;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    #sub_wrap .present_condition_view > ul > li {
+      width: 50%;
+    }
+  }
+  @media (min-width: 320px) and (max-width: 480px) {
+  }

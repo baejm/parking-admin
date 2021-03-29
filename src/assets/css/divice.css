@@ -1,0 +1,186 @@
+/*  ///////////////////기기별사이즈 ///////////////////          */
+
+
+
+
+
+@media screen and (max-width: 1217px) {
+    .content_wrap .menu_title form input::placeholder {
+      background: none;      
+    } 
+  }
+  @media screen and (max-width: 1024px) {
+    #header{height: 60px;}
+    
+  }
+  @media screen and (max-width: 768px) {
+    #sub_wrap{height: auto;    position: relative;
+      z-index: -1;}
+    #sub_wrap .content_wrap{height: 94%;position: relative;
+      z-index: -1;}
+    #header .header_area {
+      height: auto;
+    }
+    #conents-wrap {
+      padding: 65px 10px 0px;
+    }
+    #sub_wrap h1 {
+      font-size: 17px;
+      height: 6%;
+      margin: 0 auto 12px;
+    }
+    .content_wrap .menu_title {
+      margin-bottom: 0;height: auto;
+    }   
+    .list-items .list-title {
+      display: none;
+    }
+    .list-items ul.list-wrap {
+      top: 15px;
+    }
+    #conents-wrap {
+      padding: 65px 5px 0px;
+    }    
+    .content_wrap .menu_title form {
+      font-size: 13px;
+    }
+    .content_wrap .menu_title form input {
+      width: 30%;
+      padding: 5px 5px;
+    }
+    .content_wrap .menu_title form input::placeholder {
+      color: transparent;
+    }
+    .content_wrap .menu_title button {
+      border-radius: 38px;
+      width: 37px;
+    }
+    .content_wrap .menu_title button.seach_confirm {
+      margin-left: auto;
+    }
+    .content_wrap .menu_title button.registerbtn {
+      margin-left: 0;
+    }
+    .content_wrap .menu_title span.small_title {
+      white-space: nowrap;
+      line-height: 37px;
+    }
+    .list-items .list-wrap li {
+      display: inline-block;
+      padding: 5px 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid #6d6d6d;
+    }
+    .list-items .list-wrap li span:first-child {
+      height: 25px;
+      width: 100%;
+    }
+    .content_wrap .list-items .list-wrap li:hover {
+      border: none;
+      border-bottom: 1px solid #6d6d6d;
+    }
+    .content_wrap .list-items .list-wrap li input {
+      text-align: left;
+      height: 25px;
+      border-bottom: 1px solid #cecece;
+      margin-left: 37%;
+      width: 63%;
+      padding-left: 2%;
+    }
+    .list-items .list-wrap li span {
+      width: 100%;
+      text-align: left;
+      position: relative;
+      font-size: 13px;
+    }
+    .list-items .list-wrap li span::before {
+      content: "";
+      display: block;
+      clear: both;
+      position: absolute;
+      left: 4%;
+      text-align: center;
+      background: #6a6cff;
+      width: 31%;
+      color: #fff;
+      padding: 2px 1px;
+    }
+    .list-items .list-wrap li span:first-child:before {
+      content: "";
+      background: none;
+    }
+    .list-items .list-wrap li span.lp::before {
+      content: "차량번호";
+    }
+    .list-items .list-wrap li span.startTime::before {
+      content: "개시시점";
+    }
+    .list-items .list-wrap li span.endTime::before {
+      content: "종료시점";
+    }
+    .list-items .list-wrap li span.name::before {
+      content: "이름";
+    }
+    .list-items .list-wrap li span.phone::before {
+      content: "연락처";
+    }
+    .list-items .list-wrap li span.kind1::before {
+      content: "분류";
+    }
+    .list-items .list-wrap li span.contents::before {
+      content: "메모";
+    }
+    .list-items .list-wrap li span.residentID::before {
+      content: "입주사ID";
+    }
+    .list-items .list-wrap li span.residentPW::before {
+      content: "패스워드";
+    }
+    .list-items .list-wrap li span.company::before {
+      content: "입주사명";
+    }
+    .list-items .list-wrap li span.free_parking_time::before {
+      content: "무료주차시간(분)";
+    }
+    .list-items .list-wrap li span.free_parking_time::before {
+      content: "무료주차시간(분)";
+    }
+    .list-items .list-wrap li span.phone1::before {
+      content: "전화번호";
+    }
+    .list-items .list-wrap li span.time::before {
+      content: "차량출입시간";
+    }
+    .list-items .list-wrap li span.location::before {
+      content: "장소";
+    }
+    .list-items .list-wrap li span.direction::before {
+      content: "방향";
+    }
+    .list-items .list-wrap li span.registered::before {
+      content: "구분";
+    }
+    .list-items .list-wrap li span.dong_ho::before {
+      content: "동호수";
+    }
+    .list-items .list-wrap li span.picture_vichle::before {
+      content: "차량사진";
+    }
+    .list-items .list-wrap li span.picture_vichle::after {
+      content: "사진";
+    }
+    .list-items .list-wrap li span button{margin-left: 37%;}
+    .list-items ul li .imageshow > div{
+      margin: 40% auto;width: 80%;    }
+      
+  }
+  /* 모바일 */
+  @media (min-width: 320px) and (max-width: 480px) {
+    .content_wrap .popup > div {
+      width: 85%;      
+    }      
+    .list-items ul li .imageshow > div{
+    width: 97%;
+    }   
+    
+  }

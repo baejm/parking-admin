@@ -1,0 +1,549 @@
+<template>
+  <div class="report_wrap statistics">
+    <!-- 수정팝업 -->
+    <div class="modify_pop popup" v-show="modifyIs">
+      <div>
+        <h3>{{ current.date }}월 정산 내용</h3>
+        <button @click="modifyClose" class="pop_close">
+          <font-awesome-icon icon="window-close" />
+        </button>
+        <div class="form_window">
+          <form>
+            <dl>
+              <dt>차량대수</dt>
+              <dd>
+                <span>{{ current.total_vehicle_obj_list | currency }}대</span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>입차차량</dt>
+              <dd>
+                <span
+                  >{{ current.in_vehicle_obj_list_length | currency }}대</span
+                >
+              </dd>
+            </dl>
+            <dl>
+              <dt>출차차량</dt>
+              <dd>
+                <span>{{
+                  current.out_vehicle_obj_list_length | currency
+                }}</span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>등록차량</dt>
+              <dd>
+                <span
+                  >{{
+                    current.registered_vehicle_obj_list_length | currency
+                  }}대</span
+                >
+              </dd>
+            </dl>
+            <dl>
+              <dt>방문차량</dt>
+              <dd>
+                <span
+                  >{{
+                    current.visited_vehicle_obj_list_length | currency
+                  }}대</span
+                >
+              </dd>
+            </dl>
+            <dl>
+              <dt>일반차량</dt>
+              <dd>
+                <span
+                  >{{
+                    current.general_vehicle_obj_list_length | currency
+                  }}대</span
+                >
+              </dd>
+            </dl>
+            <dl>
+              <dt>방문예약차량</dt>
+              <dd>
+                <span
+                  >{{
+                    current.reserved_visit_vehicle_obj_list_length | currency
+                  }}대</span
+                >
+              </dd>
+            </dl>
+            <dl>
+              <dt>미인식차량</dt>
+              <dd>
+                <span
+                  >{{
+                    current.not_recg_vehicle_obj_list_length | currency
+                  }}대</span
+                >
+              </dd>
+            </dl>
+            <!--  <dl>
+                <dt>주차요금</dt>
+                <dd><span>{{ current.fee | currency }}원</span></dd>
+              </dl> -->
+            <dl>
+              <dt>할인금액</dt>
+              <dd>
+                <span>{{ current.discounted_fee | currency }}원</span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>정산금액</dt>
+              <dd>
+                <span>{{ current.paid_fee | currency }}원</span>
+              </dd>
+            </dl>
+            <dl>
+              <dt>입주사 부담금액</dt>
+              <dd>
+                <span>{{ current.resident_fee | currency }}원</span>
+              </dd>
+            </dl>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="title">
+      <h2>{{ titles }}</h2>
+    </div>
+
+    <form class="menu_title">
+      <span class="small_title">연도</span>
+      <select v-model="searchYear">
+        <option v-for="(y, index) in dateSelect.year" v-bind:key="index"
+          >{{ y.text }}
+        </option></select
+      >
+      <button @click.prevent="search" type="submit">
+        <font-awesome-icon icon="search" />
+      </button>
+    </form>
+
+    <div class="list-items">
+      <div class="writeRecord">
+        <button @click.prevent="download" class="save_btn">
+          <font-awesome-icon icon="save" />저장
+        </button>
+      </div>
+      <ul class="list-title">
+        <li v-for="(li, index) in listItem" :key="index">
+          <span
+            >{{ li.title
+            }}<button @click.prevent="upDown_click(li)">
+              <font-awesome-icon icon="sort-amount-up" v-if="li.sortBy" />
+              <font-awesome-icon icon="sort-amount-down" v-else /></button
+          ></span>
+        </li>
+      </ul>
+      <!-- 리스트 출력부분 -->
+      <!-- <spinners v-if="isLoading" /> -->
+      <ul class="list-wrap">
+        <li
+          v-for="(ad, index) in monthly_stat_list"
+          :key="index"
+          @click="modifyOpen(ad)"
+        >
+          <span>
+            {{ index + 1 }}
+          </span>
+          <span>
+            {{ ad.date }}
+          </span>
+          <span> {{ ad.total_vehicle_obj_list | currency }}대 </span>
+          <!--   <span> {{ ad.fee | currency }}원</span> -->
+          <span>{{ ad.discounted_fee | currency }}원 </span>
+          <span> {{ ad.paid_fee | currency }}원 </span>
+          <span> {{ ad.resident_fee | currency }}원 </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import config from "../../config.js"
+import _ from "underscore"
+import XLSX from "xlsx"
+import { mapState } from "vuex"
+// import spinners from "../components/spinners"
+export default {
+  data: function() {
+    return {
+      listItem: [
+        { title: "번호" },
+        { title: "년월", sortBy: false, standard: "date" },
+        {
+          title: "차량대수",
+          sortBy: false,
+          standard: "total_vehicle_obj_list"
+        },
+        //  {title:"주차요금",sortBy: false, standard:"fee"},
+        { title: "할인금액", sortBy: false, standard: "discounted_fee" },
+        { title: "정산금액", sortBy: false, standard: "paid_fee" },
+        { title: "입주사 부담금액", sortBy: false, standard: "resident_fee" }
+      ],
+      dateSelect: {
+        year: [
+          { text: "2020" },
+          { text: "2021" },
+          { text: "2022" },
+          { text: "2023" },
+          { text: "2024" },
+          { text: "2025" },
+          { text: "2026" },
+          { text: "2027" },
+          { text: "2028" },
+          { text: "2029" }
+        ]
+      },
+      isLoading: false,
+      searchYear: "",
+      modifyIs: false,
+      monthly_stat_list: [],
+      print_monthly_stat_list: [],
+      current: {
+        date: "",
+        total_vehicle_obj_list: "",
+        fee: "",
+        discounted_fee: "",
+        paid_fee: "",
+        resident_fee: ""
+      },
+      sort_item: {
+        date: false,
+        total_vehicle_obj_list: false,
+        fee: false,
+        discounted_fee: false,
+        paid_fee: false,
+        resident_fee: false
+      }
+    }
+  },
+  computed: {
+    ...mapState(["mainTitle"])
+  },
+  filters: {
+    currency: function(value) {
+      var num = new Number(value)
+      return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+    }
+  },
+  created() {
+    // this.isLoading = true
+    this.$socket.on("message_from_server", data => {
+      //   console.log("data.kind : ", data.kind)
+      // this.isLoading = false
+      if (data.kind === "get_monthly_stat_list") {
+        this.monthly_stat_list_query(data)
+      }
+    }),
+      this.start()
+    this.changeTitle()
+  },
+  components: {
+    // spinners
+  },
+  methods: {
+    upDown_click: function(e) {
+      let temp10 = []
+      if (e.sortBy === false) {
+        this.listItem.forEach(e => {
+          e.sortBy = false
+        })
+        e.sortBy = true
+        temp10 = _.sortBy(this.monthly_stat_list, e.standard)
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        e.sortBy = false
+        temp10 = _.sortBy(this.monthly_stat_list, e.standard)
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    changeTitle() {
+      this.mainTitle.forEach(title => {
+        title.subMenu.forEach(add => {
+          if (add.add === "monthlySettlement") this.titles = add.title
+        })
+      })
+    },
+    search() {
+      console.log("검색 버튼을 눌렀습니다.")
+      let year = this.searchYear
+      // month = "2020.06"
+      let start_time_text = year + ".01.01.00:00:00"
+      let end_time_text = year + ".12.31.23.59.59"
+      console.log(
+        "start_time_text : ",
+        start_time_text,
+        " end_time_text :",
+        end_time_text
+      )
+      let start_time = get_start_time(start_time_text)
+      let end_time = get_end_time(end_time_text)
+      let obj = {}
+      obj.kind = "get_monthly_stat_list"
+      obj.start_time = start_time
+      obj.end_time = end_time
+      console.log("monthly_stat_list query", obj)
+      this.sendMessage(obj)
+    },
+    monthly_stat_list_query(data) {
+      this.monthly_stat_list = []
+      for (let i = 0; i < data.docs.length; i++) {
+        let obj = data.docs[i].obj
+        console.log(obj)
+        obj.date = format_time2(new Date(obj.monthly_loop_event_time))
+        this.monthly_stat_list.push(obj)
+      }
+      this.print_monthly_stat_list = []
+      for (let i = 0; i < this.monthly_stat_list.length; i++) {
+        let print = {}
+        print.년월 = this.monthly_stat_list[i].date
+        print.차량대수 = this.monthly_stat_list[i].total_vehicle_obj_list
+        print.입차대수 = this.monthly_stat_list[i].in_vehicle_obj_list_length
+        print.출차대수 = this.monthly_stat_list[i].out_vehicle_obj_list_length
+        print.등록차량 = this.monthly_stat_list[
+          i
+        ].registered_vehicle_obj_list_length
+        print.방문차량 = this.monthly_stat_list[
+          i
+        ].visited_vehicle_obj_list_length
+        print.방문예약차량 = this.monthly_stat_list[
+          i
+        ].reserved_visit_vehicle_obj_list_length
+        print.일반차량 = this.monthly_stat_list[
+          i
+        ].general_vehicle_obj_list_length
+        print.미인식 = this.monthly_stat_list[
+          i
+        ].not_recg_vehicle_obj_list_length
+        print.주차요금 = this.monthly_stat_list[i].fee
+        print.정산금액 = this.monthly_stat_list[i].paid_fee
+        print.입주사부담금액 = this.monthly_stat_list[i].resident_fee
+        this.print_monthly_stat_list.push(print)
+      }
+    },
+    sendMessage(c) {
+      this.$socket.emit("message_from_web_client", c)
+    },
+    modifyOpen(c) {
+      this.modifyIs = true
+      this.current.date = c.date
+      this.current.total_vehicle_obj_list = c.total_vehicle_obj_list
+      this.current.fee = c.fee
+      this.current.discounted_fee = c.discounted_fee
+      this.current.paid_fee = c.paid_fee
+      this.current.resident_fee = c.resident_fee
+      this.current.in_vehicle_obj_list_length = c.in_vehicle_obj_list_length
+      this.current.out_vehicle_obj_list_length = c.out_vehicle_obj_list_length
+      this.current.not_recg_vehicle_obj_list_length =
+        c.not_recg_vehicle_obj_list_length
+      this.current.registered_vehicle_obj_list_length =
+        c.registered_vehicle_obj_list_length
+      this.current.reserved_visit_vehicle_obj_list_length =
+        c.reserved_visit_vehicle_obj_list_length
+      this.current.visited_vehicle_obj_list_length =
+        c.visited_vehicle_obj_list_length
+      this.current.black_vehicle_obj_list_length =
+        c.black_vehicle_obj_list_length
+      this.current.general_vehicle_obj_list_length =
+        c.general_vehicle_obj_list_length
+      this.current.kind = c.kind
+      console.log("c : ", c.lp)
+      console.log("this : ", this)
+    },
+    modifyClose() {
+      this.modifyIs = false
+    },
+    item_date_click: function() {
+      console.log("date sort")
+      let temp10 = []
+      if (this.sort_item.date === false) {
+        console.log("date sort1")
+        this.sort_item.date = true
+        temp10 = _.sortBy(this.monthly_stat_list, "date")
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        console.log("date sort2")
+        this.sort_item.date = false
+        temp10 = _.sortBy(this.monthly_stat_list, "date")
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    item_total_vehicle_obj_list_click: function() {
+      console.log("total_vehicle_obj_list sort")
+      let temp10 = []
+      if (this.sort_item.total_vehicle_obj_list === false) {
+        console.log("total_vehicle_obj_list sort1")
+        this.sort_item.total_vehicle_obj_list = true
+        temp10 = _.sortBy(this.monthly_stat_list, "total_vehicle_obj_list")
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        console.log("total_vehicle_obj_list sort2")
+        this.sort_item.total_vehicle_obj_list = false
+        temp10 = _.sortBy(this.monthly_stat_list, "total_vehicle_obj_list")
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    item_fee_click: function() {
+      console.log("fee sort")
+      let temp10 = []
+      if (this.sort_item.fee === false) {
+        console.log("fee sort1")
+        this.sort_item.fee = true
+        temp10 = _.sortBy(this.monthly_stat_list, "fee")
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        console.log("fee sort2")
+        this.sort_item.fee = false
+        temp10 = _.sortBy(this.monthly_stat_list, "fee")
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    item_discounted_fee_click: function() {
+      console.log("discounted_fee sort")
+      let temp10 = []
+      if (this.sort_item.discounted_fee === false) {
+        console.log("discounted_fee sort1")
+        this.sort_item.discounted_fee = true
+        temp10 = _.sortBy(this.monthly_stat_list, "discounted_fee")
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        console.log("discounted_fee sort2")
+        this.sort_item.discounted_fee = false
+        temp10 = _.sortBy(this.monthly_stat_list, "discounted_fee")
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    item_paid_fee_click: function() {
+      console.log("paid_fee sort")
+      let temp10 = []
+      if (this.sort_item.paid_fee === false) {
+        console.log("paid_fee sort1")
+        this.sort_item.paid_fee = true
+        temp10 = _.sortBy(this.monthly_stat_list, "paid_fee")
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        console.log("paid_fee sort2")
+        this.sort_item.paid_fee = false
+        temp10 = _.sortBy(this.monthly_stat_list, "paid_fee")
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    item_resident_fee_click: function() {
+      console.log("resident_fee sort")
+      let temp10 = []
+      if (this.sort_item.resident_fee === false) {
+        console.log("resident_fee sort1")
+        this.sort_item.resident_fee = true
+        temp10 = _.sortBy(this.monthly_stat_list, "resident_fee")
+        temp10.reverse()
+        return (this.monthly_stat_list = temp10)
+      } else {
+        console.log("resident_fee sort2")
+        this.sort_item.resident_fee = false
+        temp10 = _.sortBy(this.monthly_stat_list, "resident_fee")
+        return (this.monthly_stat_list = temp10)
+      }
+    },
+    download: function() {
+      let dt = new Date()
+      let year = itoStr(dt.getFullYear())
+      let month = itoStr(dt.getMonth() + 1)
+      let day = itoStr(dt.getDate())
+      let hour = itoStr(dt.getHours())
+      let mins = itoStr(dt.getMinutes())
+      let postfix = year + "_" + month + "_" + day + "_" + hour + "_" + mins
+      const data = XLSX.utils.json_to_sheet(this.print_monthly_stat_list)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, data, "data")
+      XLSX.writeFile(wb, config.parking_name + "월 정산_" + postfix + ".xlsx")
+    },
+    start() {
+      let dt = new Date()
+      let year = itoStr(dt.getFullYear())
+      this.searchYear = year
+    }
+  }
+}
+/*
+function format_time1(dat) {
+  var str = ""
+  str += dat.getFullYear()
+  str += "." + num_to_str(dat.getMonth() + 1)
+  str += "." + num_to_str(dat.getDate())
+  str += ". " + num_to_str(dat.getHours())
+  str += ":" + num_to_str(dat.getMinutes())
+  str += ":" + num_to_str(dat.getSeconds())
+  return str
+} */
+function format_time2(dat) {
+  var str = ""
+  str += dat.getFullYear()
+  str += "." + num_to_str(dat.getMonth() + 1)
+  return str
+}
+
+function num_to_str($num) {
+  $num < 10 ? ($num = "0" + $num) : $num
+  return $num.toString()
+}
+
+function get_start_time(str) {
+  var res = str.split(/[-T.:\s]+/)
+  var d = new Date(
+    parseInt(res[0]),
+    parseInt(res[1]) - 1,
+    parseInt(res[2]),
+    0,
+    0,
+    0,
+    0
+  )
+  return d.getTime()
+}
+
+function get_end_time(str) {
+  var res = str.split(/[-T.:\s]+/)
+  var d = new Date(
+    parseInt(res[0]),
+    parseInt(res[1]) - 1,
+    parseInt(res[2]),
+    23,
+    59,
+    59,
+    999
+  )
+  return d.getTime()
+}
+// function get_datetime(str) {
+//   var res = str.split(/[-T.:\s]+/)
+//   var d = new Date(
+//     parseInt(res[0]),
+//     parseInt(res[1]) - 1,
+//     parseInt(res[2]),
+//     parseInt(res[3]),
+//     parseInt(res[4]),
+//     0,
+//     0
+//   )
+//   return d.getTime()
+// }
+function itoStr($num) {
+  $num < 10 ? ($num = "0" + $num) : $num
+  return $num.toString()
+}
+</script>
+
+<style scoped></style>
